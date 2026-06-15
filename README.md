@@ -114,9 +114,9 @@ By working directly with raw security events rather than dashboards or visualiza
 
 **3. The folder containing the 20 generated datasets**
 
-**4. Splunk ingestion**\
+**4. Splunk ingestion**
 
-**5. Splunk searches and results**\
+**5. Splunk searches and results**
 
 Please refer to images #1, 2, and 3 in the repository.
 
@@ -149,7 +149,7 @@ Please refer to images #1, 2, and 3 in the repository.
 
 Dataset: failed_logins.log\
 Index: auth\
-Description: Simulated failed login security events for Splunk Tier 1 SOC monitoring.\
+Description: Simulated failed login security events for Splunk Tier 1 SOC monitoring.
 
 I will treat failed_logins.log as the first Tier 1 security event and build several SOC-style statistical searches around it: basic validation, top users, top source IPs, brute-force patterns, and host/user targeting.
 
@@ -222,7 +222,7 @@ index=auth source="\*failed_logins.log"\
 \| stats count by host\
 \| sort -count
 
-Purpose: Shows which systems are receiving the failed login attempts.\
+Purpose: Shows which systems are receiving the failed login attempts.
 
 Please refer to images # 11 in the repository.
 
@@ -241,7 +241,7 @@ index=auth source="\*failed_logins.log"\
 \| stats count by user,host\
 \| sort -count
 
-Purpose: Identifies which users are failing on which systems.\
+Purpose: Identifies which users are failing on which systems.
 
 Please refer to image # 13 in the repository.
 
@@ -251,7 +251,7 @@ index=auth source="\*failed_logins.log"\
 \| stats dc(user) as unique_users values(user) as targeted_users by src_ip\
 \| sort -unique_users
 
-Purpose: Helps detect password spraying, where one source IP tries multiple users.\
+Purpose: Helps detect password spraying, where one source IP tries multiple users.
 
 Please refer to images # 14 and 15 in the repository.
 
@@ -271,9 +271,8 @@ Please refer to images # 16 and 17 in the repository.
 index=auth source="\*failed_logins.log"\
 \| stats count as total_failed_logins dc(src_ip) as unique_source_ips dc(user) as affected_users
 
-**\
-Or\
-\**
+Or
+
 index=auth source="\*failed_logins.log" "failed password"\
 \| stats count by src_ip,user\
 \| sort -count
