@@ -1,3 +1,4 @@
+
 **Splunk Enterprise Tier 1 SOC 20 Security Event Monitoring Lab**
 
 **Overview**
@@ -114,46 +115,10 @@ By working directly with raw security events rather than dashboards or visualiza
 **3. The folder containing the 20 generated datasets**
 
 **4. Splunk ingestion**\
+
 **5. Splunk searches and results**\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
+
+Please refer to images #1, 2, and 3 in the repository.
 
 | **\#** | **Dataset File**           | **Splunk Index** |
 |--------|----------------------------|------------------|
@@ -185,51 +150,50 @@ By working directly with raw security events rather than dashboards or visualiza
 Dataset: failed_logins.log\
 Index: auth\
 Description: Simulated failed login security events for Splunk Tier 1 SOC monitoring.\
-\
-\
-\
-\
-\
-\
-\
-\
+
 I will treat failed_logins.log as the first Tier 1 security event and build several SOC-style statistical searches around it: basic validation, top users, top source IPs, brute-force patterns, and host/user targeting.
 
-Below are useful **SOC Tier 1 SPL queries** for failed_logins.log.
+Below are useful SOC Tier 1 SPL queries for failed_logins.log.
+
+Please refer to image # 4 in the repository.
 
 **1. Confirm Dataset Ingestion**
 
 index=auth source="\*failed_logins.log"\
 \| stats count by source index sourcetype
 
-Purpose**:** Confirms the dataset was ingested into the correct index and sourcetype.
+Purpose: Confirms the dataset was ingested into the correct index and sourcetype.
 
-2. View Raw Failed Login Events**
+Please refer to image # 5 in the repository.
+
+**2. View Raw Failed Login Events**
 
 index=auth source="\*failed_logins.log"\
 \| table \_time host user src_ip action message
 
-Purpose**:** Shows the raw failed login activity in table format.
+Purpose: Shows the raw failed login activity in table format.
 
-\
-3. Count Failed Logins by Source IP and User**
+Please refer to image # 6 in the repository.
+
+**3. Count Failed Logins by Source IP and User**
 
 index=auth source="\*failed_logins.log" "failed password"\
 \| stats count by src_ip,user\
 \| sort -count
 
-Purpose**:** Identifies which source IPs are failing against which user accounts.
+Purpose: Identifies which source IPs are failing against which user accounts.
 
-\
-4. Top Source IPs Causing Failed Logins**
+Please refer to image # 7 in the repository.
+
+**4. Top Source IPs Causing Failed Logins**
 
 index=auth source="\*failed_logins.log"\
 \| stats count by src_ip\
 \| sort -count
 
-\
-\
 Purpose: Finds the most active source IP addresses generating failed logins.
+
+Please refer to image # 5 in the repository.
 
 **5. Top Targeted User Accounts**
 
@@ -239,9 +203,9 @@ index=auth source="\*failed_logins.log"\
 
 Purpose: Shows which user accounts are receiving the most failed login attempts.
 
+Please refer to image # 9 in the repository.
 
-**\
-6. Possible Brute Force by Source IP**
+**6. Possible Brute Force by Source IP**
 
 index=auth source="\*failed_logins.log"\
 \| stats count by src_ip\
@@ -250,40 +214,48 @@ index=auth source="\*failed_logins.log"\
 
 Purpose: Detects source IPs with repeated failed login attempts.
 
-\
-\
-7. Failed Logins by Host**
+Please refer to image # 10 in the repository.
+
+**7. Failed Logins by Host**
 
 index=auth source="\*failed_logins.log"\
 \| stats count by host\
 \| sort -count
 
 Purpose: Shows which systems are receiving the failed login attempts.\
+
+Please refer to images # 11 in the repository.
+
+**8. Failed Logins Over Time**
 \
 index=auth source="\*failed_logins.log"\
 \| timechart span=10m count
 
 Purpose: Shows when failed login activity increased or decreased over time.
 
+Please refer to image # 12 in the repository.
+
+**9. Failed Logins by User and Host**
 
 index=auth source="\*failed_logins.log"\
 \| stats count by user,host\
 \| sort -count
 
 Purpose: Identifies which users are failing on which systems.\
-\
-\**
+
+Please refer to image # 13 in the repository.
+
+**10. Unique Users Targeted by Each Source IP**
+
 index=auth source="\*failed_logins.log"\
 \| stats dc(user) as unique_users values(user) as targeted_users by src_ip\
 \| sort -unique_users
 
-**Purpose:** Helps detect password spraying, where one source IP tries multiple users.\
-\
+Purpose: Helps detect password spraying, where one source IP tries multiple users.\
 
-\
-\
-\
-11. Unique Source IPs per User**
+Please refer to images # 14 and 15 in the repository.
+
+**11. Unique Source IPs per User**
 
 index=auth source="\*failed_logins.log"\
 \| stats dc(src_ip) as unique_src_ips values(src_ip) as source_ips by user\
@@ -291,12 +263,10 @@ index=auth source="\*failed_logins.log"\
 
 Purpose: Shows whether one user account is being attacked from multiple IP addresses.
 
+Please refer to images # 16 and 17 in the repository.
 
-**\**
-\
-\
-\
-12. Statistical Summary**
+
+**12. Statistical Summary**
 
 index=auth source="\*failed_logins.log"\
 \| stats count as total_failed_logins dc(src_ip) as unique_source_ips dc(user) as affected_users
@@ -310,42 +280,7 @@ index=auth source="\*failed_logins.log" "failed password"\
 
 Purpose: Gives a clean statistical summary for documentation.
 
-Top of Form
+Please refer to images # 18 and 19 in the repository.
 
-Bottom of Form
 
-\
-\
-\
-\
-\
-\
-\
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**\
-\**
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-**\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\**
+
